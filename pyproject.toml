@@ -1,6 +1,6 @@
 [project]
 name = "gvtop"
-version = "0.0.1"
+version = "0.0.2"
 description = "🎮 Material You TUI for monitoring NVIDIA GPUs"
 dependencies = [
     "pynvml",
