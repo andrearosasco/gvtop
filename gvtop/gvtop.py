@@ -91,15 +91,19 @@ def main():
         for index in range(count):
             local_processes = global_processes[index]
             for process in local_processes:
-                proc = psutil.Process(process.pid)
-                start = datetime.datetime.fromtimestamp(proc.create_time()).strftime("%a/%H:%M:%S")
-                elapsed = round(time.time() - proc.create_time())
-                hours = elapsed//3600
-                mins = (elapsed%3600)//60
-                secs = elapsed%60
-                elapsed = "%02d:%02d:%02d" % (hours, mins, secs)
-                cmd = " ".join(proc.cmdline())
-                footer += "%4.4s %8.8s %8.8s %12.12s %8.8s %s\n" % (index, "%d GiB" % round(process.usedGpuMemory/2**30), process.pid, start, elapsed, cmd)
+                try:
+                    proc = psutil.Process(process.pid)
+                    start = datetime.datetime.fromtimestamp(proc.create_time()).strftime("%a/%H:%M:%S")
+                    elapsed = round(time.time() - proc.create_time())
+                    hours = elapsed//3600
+                    mins = (elapsed%3600)//60
+                    secs = elapsed%60
+                    elapsed = "%02d:%02d:%02d" % (hours, mins, secs)
+                    cmd = " ".join(proc.cmdline())
+                    footer += "%4.4s %8.8s %8.8s %12.12s %8.8s %s\n" % (index, "%d GiB" % round(process.usedGpuMemory/2**30), process.pid, start, elapsed, cmd)
+                # Problem probing process
+                except:
+                    continue
         # Delete final new line
         footer = footer[:-1]
         
