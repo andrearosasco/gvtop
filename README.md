@@ -18,12 +18,12 @@ Features:
 2)  Install from GitHub via pip:
 
         pip install git+https://github.com/gvlassis/gvtop
-
+        
 3)  Run:
+        
         # Simply
         gvtop
-
+        
         # Change the theme
         GEM=quartz gvtop
-        
 
