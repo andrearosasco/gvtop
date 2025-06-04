@@ -72,10 +72,12 @@ def main():
                   '%s  Pow.: %8.8s\n' % (icon(" "),"%d W" % max_power) +
                   '%s  CUDA: %8.8s' % (icon(" "),"≤ %d.%d" % (major,minor)))
         
-        containers = []
+        max_mem = 0
         global_processes = []
+        containers = []
         for index in range(count):
             used_mem = round(nvmlDeviceGetMemoryInfo(handles[index]).used/2**30)
+            if used_mem>max_mem: max_mem = used_mem
             power = round(nvmlDeviceGetPowerUsage(handles[index])/1000)
             # .gpu, .memory
             util = nvmlDeviceGetUtilizationRates(handles[index]).gpu/100
@@ -85,6 +87,7 @@ def main():
             
             container = utils.GPUContainer(SCHEME, index, used_mem, total_mem, power, max_power, util, len(local_processes))
             containers.append(str(container))
+        title = "%*d/%d GiB" % (len(str(total_mem)),max_mem,total_mem)
         body = utils.to_grid(containers,4)
 
         footer = "\x1b[1m%4.4s %8.8s %8.8s %12.12s %8.8s %s\x1b[22m\n" % ("GPU", "Mem.", "PID", "Start", "Elapsed", "CMD")
@@ -107,8 +110,8 @@ def main():
         # Delete final new line
         footer = footer[:-1]
         
-        # Begin Synchronized Update, clear screen, cursor home, End Synchronized Update
-        string = "\x1b[?2026h\x1b[2J\x1b[H%s\n%s\n%s\x1b[?2026l" % (header,body,footer)
+        # Begin Synchronized Update, set title, clear screen, cursor home, End Synchronized Update
+        string = "\x1b[?2026h\x1b]0;%s\x07\x1b[2J\x1b[H%s\n%s\n%s\x1b[?2026l" % (title,header,body,footer)
         # string contains \n, which in raw mode are not converted to \r\n
         print(string.replace("\n","\r\n"),end="",flush=True)
 

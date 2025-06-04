@@ -128,8 +128,8 @@ class GPUContainer(Container):
 def cleanup(fd, old_settings):
     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
-    # Exit alternate buffer (restores some settings)
-    print("\x1b[?1049l",end="",flush=True)
+    # Reset title, exit alternate buffer (restores some settings)
+    print("\x1b]0;\x07\x1b[?1049l",end="",flush=True)
 
     nvmlShutdown()
     
