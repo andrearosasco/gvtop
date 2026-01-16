@@ -3,7 +3,7 @@ name = "gvtop"
 version = "0.0.3"
 description = "🎮 Material You TUI for monitoring NVIDIA GPUs"
 dependencies = [
-    "pynvml",
+    "nvidia-ml-py",
     "psutil"
 ]
 
