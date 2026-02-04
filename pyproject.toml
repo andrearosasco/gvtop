@@ -2,22 +2,21 @@
 name = "gvtop"
 version = "0.0.3"
 description = "🎮 Material You TUI for monitoring NVIDIA GPUs"
-dependencies = [
-    "nvidia-ml-py",
-    "psutil"
-]
-
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["*"]
-exclude = []
+dependencies = ["nvidia-ml-py", "psutil"]
 
 [project.scripts]
 gvtop = "gvtop.gvtop:main"
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["gvtop*"]
 
 [tool.pixi.project]
 name = "gvtop"
