@@ -18,3 +18,11 @@ exclude = []
 
 [project.scripts]
 gvtop = "gvtop.gvtop:main"
+
+[tool.pixi.project]
+name = "gvtop"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.pypi-dependencies]
+gvtop = { path = ".", editable = false }
